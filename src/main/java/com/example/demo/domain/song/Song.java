@@ -1,5 +1,6 @@
-package com.example.demo.domain;
+package com.example.demo.domain.song;
 
+import com.example.demo.domain.album.Album;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Entity
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

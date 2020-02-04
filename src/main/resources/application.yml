@@ -1,0 +1,44 @@
+server:
+  port: 5000
+spring:
+  profiles:
+    active: deploy
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+---
+spring:
+  profiles: deploy
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-server:3306/my_database?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: password
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.format_sql: true
+      hibernate:
+        jdbc:
+          lob:
+            non-contextual-creation: true=true
+---
+spring:
+  profiles: local
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true

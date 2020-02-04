@@ -1,5 +1,8 @@
-package com.example.demo.domain;
+package com.example.demo.domain.album;
 
+import com.example.demo.domain.albumlocale.AlbumLocale;
+import com.example.demo.domain.locale.Locale;
+import com.example.demo.domain.song.Song;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +13,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@Entity
 public class Album {
 
     @Id
@@ -21,7 +25,7 @@ public class Album {
     private String albumTitle;
 
     @OneToMany(mappedBy = "album")
-    List<Locale> locales = new ArrayList<Locale>();
+    List<AlbumLocale> locales = new ArrayList<AlbumLocale>();
 
     @OneToMany(mappedBy = "album")
     List<Song> songs = new ArrayList<Song>();
@@ -31,19 +35,15 @@ public class Album {
         this.albumTitle = albumTitle;
     }
 
-    public void addLocale(Locale locale) {
-        this.locales.add(locale);
-    }
-
     public void addSong(Song song) {
         this.songs.add(song);
     }
 
-    public List<Locale> getLocales() {
-        return this.locales;
-    }
-
     public List<Song> getSongs() {
         return this.songs;
+    }
+
+    public List<AlbumLocale> getLocales() {
+        return locales;
     }
 }

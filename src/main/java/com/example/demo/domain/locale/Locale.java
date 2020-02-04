@@ -1,13 +1,17 @@
-package com.example.demo.domain;
+package com.example.demo.domain.locale;
 
+import com.example.demo.domain.albumlocale.AlbumLocale;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@Entity
 public class Locale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +21,9 @@ public class Locale {
     @Column(nullable = false, name = "LOCALE_NAME")
     private String localeName;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "ALBUM_ID")
+    @OneToMany (mappedBy = "locale")
+    private List<AlbumLocale> albums = new ArrayList<>();
+
     @Builder
     public Locale(String localeName) {
         this.localeName = localeName;
