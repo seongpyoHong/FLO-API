@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
-@NoArgsConstructor
 @Entity
 public class Song {
+    public Song() {};
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "SONG_ID")
@@ -26,7 +26,7 @@ public class Song {
     private Long length;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ALBUM_ID")
+    @JoinColumn(name = "ALBUM_ID",  foreignKey = @ForeignKey(name = "fk_song_album_id"))
     Album album;
 
     @Builder
@@ -34,5 +34,35 @@ public class Song {
         this.songName = songName;
         this.track = track;
         this.length = length;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getSongName() {
+        return songName;
+    }
+
+    public Long getTrack() {
+        return track;
+    }
+
+    public Long getLength() {
+        return length;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", songName='" + songName + '\'' +
+                ", track=" + track +
+                ", length=" + length +
+                '}';
     }
 }

@@ -1,29 +1,41 @@
 package com.example.demo.domain.album;
 
 import com.example.demo.dto.SearchResponseDto;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.demo.domain.album.QAlbum.album;
+import static com.example.demo.domain.song.QSong.song;
+import static com.example.demo.domain.albumlocale.QAlbumLocale.albumLocale;
+import static com.example.demo.domain.locale.QLocale.locale;
+
 
 public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements AlbumRepositoryCustom {
+    public static Long ALL_LOCALE_ID = 1L;
     private final JPAQueryFactory queryFactory;
-
     public AlbumRepositoryImpl(JPAQueryFactory queryFactory) {
         super(Album.class);
         this.queryFactory = queryFactory;
     }
 
     //Album in Valid Locale
-    public List<SearchResponseDto> findByAlbumTitleInValidLocale(String title) {
-        return queryFactory.select(Projections.constructor(SearchResponseDto.class, album.id,album.albumTitle,album.songs))
-                .from(album)
-                .where(containTitle(title))
+    public List<SearchResponseDto> findByAlbumTitleInValidLocale(String title, String localeName) {
+        Long localeId = queryFactory.select(locale.id).from(locale)
+                .leftJoin(locale.albums,albumLocale)
+                .where(locale.localeName.eq(localeName)).fetchOne();
+
+        List<Album> albums = queryFactory.selectFrom(album)
+                .leftJoin(album.songs,song).fetchJoin()
+                .where(containTitle(title).and(isServiceable(localeId)))
                 .fetch();
+
+        return albums.stream()
+                .map(a -> new SearchResponseDto(a.getId(),a.getAlbumTitle(),a.getSongs()))
+                .collect(Collectors.toList());
     }
 
     private BooleanExpression containTitle(String title) {
@@ -33,11 +45,11 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
         return album.albumTitle.contains(title);
     }
 
-    private BooleanExpression isServiceable(String locale) {
-        if (locale == null) {
+    private BooleanExpression isServiceable(Long localeId) {
+        if (localeId == null) {
             return null;
         }
-        return album.locales.any().locale.localeName.in(locale, "all");
+        return album.locales.any().locale.id.in(localeId, ALL_LOCALE_ID);
     }
 }
 

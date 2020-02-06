@@ -11,11 +11,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@NoArgsConstructor
 @Entity
 public class Album {
 
+    public Album() {};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ALBUM_ID")
@@ -42,8 +41,13 @@ public class Album {
     public List<Song> getSongs() {
         return this.songs;
     }
-
     public List<AlbumLocale> getLocales() {
         return locales;
+    }
+    public Long getId() {
+        return id;
+    }
+    public String getAlbumTitle() {
+        return albumTitle;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.album.Album;
 import com.example.demo.dto.SearchResponseDto;
 import com.example.demo.service.AlbumService;
 import org.springframework.web.bind.annotation.GetMapping;

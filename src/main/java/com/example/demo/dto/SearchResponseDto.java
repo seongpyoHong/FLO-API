@@ -6,12 +6,23 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Setter
 public class SearchResponseDto {
     private Long id;
     private String albumTitle;
     private List<Song> songList = new ArrayList<Song>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getAlbumTitle() {
+        return albumTitle;
+    }
+
+    public List<Song> getSongList() {
+        return songList;
+    }
 
     public SearchResponseDto(Long id, String albumTitle, List<Song> songList) {
         this.id = id;

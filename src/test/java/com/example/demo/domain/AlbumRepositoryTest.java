@@ -1,6 +1,8 @@
 package com.example.demo.domain;
 
+import com.example.demo.domain.album.Album;
 import com.example.demo.domain.album.AlbumRepository;
+import com.example.demo.domain.song.Song;
 import com.example.demo.dto.SearchResponseDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,11 +23,16 @@ class AlbumRepositoryTest {
     public void 유효지역_앨범이름_검색() {
         //given
         String title = "album_1";
-        String locale = "en";
+        String locale = "ch";
         //when
-        List<SearchResponseDto> albumList = albumRepository.findByAlbumTitleInValidLocale(title);
+        List<SearchResponseDto> albumList = albumRepository.findByAlbumTitleInValidLocale(title,locale);
         //then
-        System.out.println(albumList.size());
+        for (SearchResponseDto dto : albumList) {
+            System.out.println(dto.getAlbumTitle());
+            for (Song song : dto.getSongList()) {
+                System.out.println(song.toString());
+            }
+        }
     }
 
     @Test

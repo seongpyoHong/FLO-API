@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.album.Album;
 import com.example.demo.domain.album.AlbumRepository;
 import com.example.demo.domain.locale.LocaleRepository;
 import com.example.demo.domain.song.SongRepository;
@@ -19,9 +20,9 @@ public class AlbumService {
     }
 
     public List<SearchResponseDto> searchByTitle(String title, String locale) {
-        List<SearchResponseDto> albumListByAlbumTitle = albumRepository.findByAlbumTitleInValidLocale(title);
-        List<SearchResponseDto> albumListBySongTitle = songRepository.findBySongTitleInValidLocale(title,locale);
-        albumListByAlbumTitle.addAll(albumListBySongTitle);
+        List<SearchResponseDto> albumListByAlbumTitle = albumRepository.findByAlbumTitleInValidLocale(title,locale);
+        //List<SearchResponseDto> albumListBySongTitle = songRepository.findBySongTitleInValidLocale(title,locale);
+        //albumListByAlbumTitle.addAll(albumListBySongTitle);
         return albumListByAlbumTitle;
     }
 
