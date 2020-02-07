@@ -5,5 +5,5 @@ import com.example.demo.dto.SearchResponseDto;
 import java.util.List;
 
 public interface AlbumRepositoryCustom {
-     List<SearchResponseDto> findByAlbumTitleInValidLocale(String title, String locale);
+     List<SearchResponseDto> findByTitleInValidLocale(String title, String locale);
 }

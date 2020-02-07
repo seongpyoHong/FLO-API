@@ -20,11 +20,6 @@ public class AlbumService {
     }
 
     public List<SearchResponseDto> searchByTitle(String title, String locale) {
-        List<SearchResponseDto> albumListByAlbumTitle = albumRepository.findByAlbumTitleInValidLocale(title,locale);
-        //List<SearchResponseDto> albumListBySongTitle = songRepository.findBySongTitleInValidLocale(title,locale);
-        //albumListByAlbumTitle.addAll(albumListBySongTitle);
-        return albumListByAlbumTitle;
+        return albumRepository.findByTitleInValidLocale(title,locale);
     }
-
-
 }

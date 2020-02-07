@@ -1,6 +1,7 @@
 package com.example.demo.domain.locale;
 
 import com.example.demo.domain.albumlocale.AlbumLocale;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,23 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@NoArgsConstructor
 @Entity
 public class Locale {
+    public Locale() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLocaleName() {
+        return localeName;
+    }
+
+    public List<AlbumLocale> getAlbums() {
+        return albums;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "LOCALE_ID")
@@ -22,6 +36,7 @@ public class Locale {
     private String localeName;
 
     @OneToMany (mappedBy = "locale")
+    @JsonIgnore
     private List<AlbumLocale> albums = new ArrayList<>();
 
     @Builder

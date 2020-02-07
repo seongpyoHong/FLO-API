@@ -18,7 +18,8 @@ public class AlbumController {
     }
 
     @GetMapping("/search")
-    public List<SearchResponseDto> search(@RequestParam String title, @RequestParam String locale) {
+    public List<SearchResponseDto> search(@RequestParam(name = "title") String title, @RequestParam(name = "locale") String locale) {
+        System.out.println(albumService.searchByTitle(title, locale).size());
         return albumService.searchByTitle(title, locale);
     }
 }

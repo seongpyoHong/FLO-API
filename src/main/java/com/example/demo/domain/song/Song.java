@@ -1,6 +1,7 @@
 package com.example.demo.domain.song;
 
 import com.example.demo.domain.album.Album;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Song {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ALBUM_ID",  foreignKey = @ForeignKey(name = "fk_song_album_id"))
+    @JsonIgnore
     Album album;
 
     @Builder

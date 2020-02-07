@@ -23,14 +23,15 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
     }
 
     //Album in Valid Locale
-    public List<SearchResponseDto> findByAlbumTitleInValidLocale(String title, String localeName) {
+    public List<SearchResponseDto> findByTitleInValidLocale(String title, String localeName) {
         Long localeId = queryFactory.select(locale.id).from(locale)
                 .leftJoin(locale.albums,albumLocale)
                 .where(locale.localeName.eq(localeName)).fetchOne();
 
         List<Album> albums = queryFactory.selectFrom(album)
                 .leftJoin(album.songs,song).fetchJoin()
-                .where(containTitle(title).and(isServiceable(localeId)))
+                .where((containAlbumTitle(title).or(containSongName(title))).and(isServiceable(localeId)))
+                .distinct()
                 .fetch();
 
         return albums.stream()
@@ -38,7 +39,13 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
                 .collect(Collectors.toList());
     }
 
-    private BooleanExpression containTitle(String title) {
+    private BooleanExpression containSongName(String title) {
+        if (title == null) {
+            return null;
+        }
+        return song.songName.contains(title);
+    }
+    private BooleanExpression containAlbumTitle(String title) {
         if (title == null) {
             return null;
         }
