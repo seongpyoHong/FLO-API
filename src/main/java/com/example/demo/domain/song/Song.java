@@ -36,6 +36,7 @@ public class Song {
     Album album;
 
     @OneToMany(mappedBy = "song", cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private List<PlaylistSong> playlists = new ArrayList<PlaylistSong>();
 
     public Long getId() {

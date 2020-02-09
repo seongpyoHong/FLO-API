@@ -1,6 +1,8 @@
 package com.example.demo.domain.album;
 
+import com.example.demo.domain.song.Song;
 import com.example.demo.dto.AlbumResponseDto;
+import com.example.demo.dto.SongResponseDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -38,7 +40,6 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
                 .map(a -> new AlbumResponseDto(a.getId(),a.getAlbumTitle(),a.getSongs()))
                 .collect(Collectors.toList());
     }
-
     private Long getLocaleId(String localeName) {
         return queryFactory.select(locale.id)
                             .from(locale)

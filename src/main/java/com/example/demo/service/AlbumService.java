@@ -3,8 +3,10 @@ package com.example.demo.service;
 import com.example.demo.domain.album.Album;
 import com.example.demo.domain.album.AlbumRepository;
 import com.example.demo.domain.locale.LocaleRepository;
+import com.example.demo.domain.song.Song;
 import com.example.demo.dto.AlbumResponseDto;
 import com.example.demo.dto.PagedResponseDto;
+import com.example.demo.dto.SongResponseDto;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.PageRequest;

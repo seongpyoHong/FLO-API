@@ -3,6 +3,7 @@ package com.example.demo.domain.album;
 import com.example.demo.domain.albumlocale.AlbumLocale;
 import com.example.demo.domain.locale.Locale;
 import com.example.demo.domain.song.Song;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Album {
     List<AlbumLocale> locales = new ArrayList<AlbumLocale>();
 
     @OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JsonIgnore
     List<Song> songs = new ArrayList<Song>();
 
     @Builder
