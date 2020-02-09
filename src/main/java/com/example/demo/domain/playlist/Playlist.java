@@ -15,15 +15,16 @@ public class Playlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PLAYLIST_ID")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "PLAYLIST_USER_ID")
     private Long userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "PLAYLIST_NAME")
     private String name;
 
-    @OneToMany(mappedBy = "playlist",fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "playlist",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<PlaylistSong> songList = new ArrayList<PlaylistSong>();
 
     public Playlist() {}

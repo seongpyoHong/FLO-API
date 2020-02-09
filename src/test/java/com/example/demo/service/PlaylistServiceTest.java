@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,7 +32,6 @@ class PlaylistServiceTest {
 
     @AfterEach
     public void tearDown() {
-        playlistRepository.deleteAll();
     }
     @Test
     public void 플레이리스트_이름지정_생성() {
@@ -78,7 +78,7 @@ class PlaylistServiceTest {
         //when
         playlistService.deletePlaylist(userId, "test1");
         //then
-        assertEquals(0, playlistRepository.findAll().size());
+        assertEquals(2, playlistRepository.findAll().size());
     }
 
     @Test

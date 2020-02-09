@@ -55,7 +55,7 @@ public class PlaylistService {
     public PlaylistResponseDto addSongToPlaylist(Long userId, SongAddRequestDto requestDto) {
         Song song = songRepository.findBySongName(requestDto.getSongName()).orElseThrow(() -> new IllegalArgumentException("Song Doesn't Exist!!"));
         Playlist playlist = playlistRepository.findByUserIdAndName(userId, requestDto.getPlaylistName()).orElseThrow(() -> new IllegalArgumentException("Playlist Doesn't Exist!"));
-        playlist.addSong(new PlaylistSong(playlist,song));
+        PlaylistSong mapping = playlistSongRepository.save(new PlaylistSong(playlist, song));
         List<SongResponseDto> currentSongList = getSongInPlaylist(playlist);
         return new PlaylistResponseDto(playlist.getName(), currentSongList);
     }

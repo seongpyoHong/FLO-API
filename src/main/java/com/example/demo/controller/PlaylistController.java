@@ -34,7 +34,7 @@ public class PlaylistController {
         return "redirect:/playlist" + userId;
     }
 
-    @PutMapping("/playist/{userId}")
+    @PutMapping("/playlist/{userId}")
     public PlaylistResponseDto addSongToPlaylist(@PathVariable("userId") Long userId, @RequestBody SongAddRequestDto requestDto) {
         return playlistService.addSongToPlaylist(userId, requestDto);
     }
