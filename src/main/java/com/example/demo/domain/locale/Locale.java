@@ -35,7 +35,7 @@ public class Locale {
     @Column(nullable = false, name = "LOCALE_NAME")
     private String localeName;
 
-    @OneToMany (mappedBy = "locale")
+    @OneToMany (mappedBy = "locale", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JsonIgnore
     private List<AlbumLocale> albums = new ArrayList<>();
 

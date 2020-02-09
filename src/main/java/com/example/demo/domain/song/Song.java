@@ -30,12 +30,12 @@ public class Song {
     @Column(nullable = false, name = "SONG_LENGTH")
     private Long length;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ALBUM_ID",  foreignKey = @ForeignKey(name = "fk_song_album_id"))
     @JsonIgnore
     Album album;
 
-    @OneToMany(mappedBy = "song")
+    @OneToMany(mappedBy = "song", cascade = CascadeType.PERSIST)
     private List<PlaylistSong> playlists = new ArrayList<PlaylistSong>();
 
     public Long getId() {

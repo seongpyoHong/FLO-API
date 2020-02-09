@@ -23,11 +23,12 @@ public class Playlist {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "playlist")
+    @OneToMany(mappedBy = "playlist",fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<PlaylistSong> songList = new ArrayList<PlaylistSong>();
 
     public Playlist() {}
-    public Playlist(String name) {
+    public Playlist(Long userId, String name) {
+        this.userId = userId;
         this.name = name;
     }
 
@@ -37,5 +38,13 @@ public class Playlist {
     public String getName() {
         return name;
     }
-
+    public List<PlaylistSong> getSongList() {
+        return songList;
+    }
+    public Long getUserId() {
+        return userId;
+    }
+    public void addSong(PlaylistSong song) {
+        this.songList.add(song);
+    }
 }

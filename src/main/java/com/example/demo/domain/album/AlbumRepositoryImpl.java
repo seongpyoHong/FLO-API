@@ -25,6 +25,7 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
     }
 
     //Album in Valid Locale
+    @Override
     public List<AlbumResponseDto> findByTitleInValidLocale(String title, String localeName) {
         Long localeId = getLocaleId(localeName);
         List<Album> albums = queryFactory.selectFrom(album)

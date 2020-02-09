@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
-@NoArgsConstructor
 @Entity
 public class PlaylistSong {
     @Id
@@ -22,4 +20,33 @@ public class PlaylistSong {
     @ManyToOne
     @JoinColumn(name = "SONG_ID")
     private Song song;
+
+    public PlaylistSong(){}
+    public PlaylistSong(Playlist playlist, Song song) {
+        this.playlist = playlist;
+        this.song = song;
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public Song getSong() {
+        return song;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
 }

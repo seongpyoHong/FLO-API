@@ -27,7 +27,6 @@ public class AlbumResponseDto {
     public List<Song> getSongList() {
         return songList;
     }
-
     public void addSongList(Song song) {
         this.songList.add(song);
     }

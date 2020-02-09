@@ -23,10 +23,10 @@ public class Album {
     @Column(nullable = false, name = "ALBUM_TITLE")
     private String albumTitle;
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     List<AlbumLocale> locales = new ArrayList<AlbumLocale>();
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     List<Song> songs = new ArrayList<Song>();
 
     @Builder

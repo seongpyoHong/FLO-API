@@ -7,24 +7,16 @@ import java.util.List;
 
 public class PlaylistResponseDto {
     private String playlistName;
-    private Long userId;
-    private List<Song> songList = new ArrayList<Song>();
+    private List<SongResponseDto> songList = new ArrayList<SongResponseDto>();
 
-    public PlaylistResponseDto(String playlistName, Long userId, List<Song> songList) {
+    public PlaylistResponseDto(String playlistName ,List<SongResponseDto> songList) {
         this.playlistName = playlistName;
-        this.userId = userId;
         this.songList = songList;
     }
-
-    public Long getUserId() {
-        return userId;
-    }
-
     public String getPlaylistName() {
         return playlistName;
     }
-
-    public List<Song> getSongList() {
+    public List<SongResponseDto> getSongList() {
         return songList;
     }
 }

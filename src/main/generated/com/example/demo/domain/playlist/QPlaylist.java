@@ -26,6 +26,8 @@ public class QPlaylist extends EntityPathBase<Playlist> {
 
     public final ListPath<com.example.demo.domain.playlistsong.PlaylistSong, com.example.demo.domain.playlistsong.QPlaylistSong> songList = this.<com.example.demo.domain.playlistsong.PlaylistSong, com.example.demo.domain.playlistsong.QPlaylistSong>createList("songList", com.example.demo.domain.playlistsong.PlaylistSong.class, com.example.demo.domain.playlistsong.QPlaylistSong.class, PathInits.DIRECT2);
 
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+
     public QPlaylist(String variable) {
         super(Playlist.class, forVariable(variable));
     }
