@@ -28,6 +28,8 @@ public class QSong extends EntityPathBase<Song> {
 
     public final NumberPath<Long> length = createNumber("length", Long.class);
 
+    public final ListPath<com.example.demo.domain.playlistsong.PlaylistSong, com.example.demo.domain.playlistsong.QPlaylistSong> playlists = this.<com.example.demo.domain.playlistsong.PlaylistSong, com.example.demo.domain.playlistsong.QPlaylistSong>createList("playlists", com.example.demo.domain.playlistsong.PlaylistSong.class, com.example.demo.domain.playlistsong.QPlaylistSong.class, PathInits.DIRECT2);
+
     public final StringPath songName = createString("songName");
 
     public final NumberPath<Long> track = createNumber("track", Long.class);

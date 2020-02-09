@@ -1,9 +1,7 @@
 package com.example.demo.domain;
 
-import com.example.demo.domain.album.Album;
 import com.example.demo.domain.album.AlbumRepository;
-import com.example.demo.domain.song.Song;
-import com.example.demo.dto.SearchResponseDto;
+import com.example.demo.dto.AlbumResponseDto;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +24,7 @@ class AlbumRepositoryTest {
         String title = "album_1";
         String locale = "ch";
         //when
-        List<SearchResponseDto> albumList = albumRepository.findByAlbumTitleInValidLocale(title,locale);
+        List<AlbumResponseDto> albumList = albumRepository.findByTitleInValidLocale(title,locale);
         //then
         assertEquals(title, albumList.get(0).getAlbumTitle());
     }
@@ -37,7 +35,7 @@ class AlbumRepositoryTest {
         String title = "album_1";
         String locale = "en";
         //when
-        List<SearchResponseDto> albumList = albumRepository.findByAlbumTitleInValidLocale(title,locale);
+        List<AlbumResponseDto> albumList = albumRepository.findByTitleInValidLocale(title,locale);
         //then
         assertEquals(0, albumList.size());
     }
@@ -48,7 +46,7 @@ class AlbumRepositoryTest {
         String title = "song1_1";
         String locale = "ch";
         //when
-        List<SearchResponseDto> albumList = albumRepository.findByAlbumTitleInValidLocale(title,locale);
+        List<AlbumResponseDto> albumList = albumRepository.findByTitleInValidLocale(title,locale);
         //then
         assertEquals(albumList.get(0).getAlbumTitle(), "album_1");
     }
@@ -59,7 +57,7 @@ class AlbumRepositoryTest {
         String title = "song1_1";
         String locale = "en";
         //when
-        List<SearchResponseDto> albumList = albumRepository.findByAlbumTitleInValidLocale(title,locale);
+        List<AlbumResponseDto> albumList = albumRepository.findByTitleInValidLocale(title,locale);
         //then
         assertEquals(0, albumList.size());
     }

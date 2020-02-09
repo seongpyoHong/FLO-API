@@ -1,8 +1,10 @@
 package com.example.demo.domain.album;
 
-import com.example.demo.dto.SearchResponseDto;
+import com.example.demo.dto.AlbumResponseDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -23,11 +25,8 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
     }
 
     //Album in Valid Locale
-    public List<SearchResponseDto> findByTitleInValidLocale(String title, String localeName) {
-        Long localeId = queryFactory.select(locale.id).from(locale)
-                .leftJoin(locale.albums,albumLocale)
-                .where(locale.localeName.eq(localeName)).fetchOne();
-
+    public List<AlbumResponseDto> findByTitleInValidLocale(String title, String localeName) {
+        Long localeId = getLocaleId(localeName);
         List<Album> albums = queryFactory.selectFrom(album)
                 .leftJoin(album.songs,song).fetchJoin()
                 .where((containAlbumTitle(title).or(containSongName(title))).and(isServiceable(localeId)))
@@ -35,10 +34,16 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
                 .fetch();
 
         return albums.stream()
-                .map(a -> new SearchResponseDto(a.getId(),a.getAlbumTitle(),a.getSongs()))
+                .map(a -> new AlbumResponseDto(a.getId(),a.getAlbumTitle(),a.getSongs()))
                 .collect(Collectors.toList());
     }
 
+    private Long getLocaleId(String localeName) {
+        return queryFactory.select(locale.id)
+                            .from(locale)
+                            .where(locale.localeName.eq(localeName))
+                            .fetchOne();
+    }
     private BooleanExpression containSongName(String title) {
         if (title == null) {
             return null;
@@ -51,7 +56,6 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
         }
         return album.albumTitle.contains(title);
     }
-
     private BooleanExpression isServiceable(Long localeId) {
         if (localeId == null) {
             return null;
