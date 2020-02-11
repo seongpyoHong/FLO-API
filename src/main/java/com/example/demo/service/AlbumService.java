@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class AlbumService {
-    private static String SERVER_URL = "http://localhost:5000/";
-    private static String PAGE_URL= SERVER_URL+"albums/?page=";
+    private static String BASE_URL = "http://localhost:5000/";
+    private static String PAGE_URL= BASE_URL+"albums/?page=";
     private static int DEFAULT_PAGE_SIZE = 10;
     private final AlbumRepository albumRepository;
     private final LocaleRepository localeRepository;

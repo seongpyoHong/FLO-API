@@ -4,8 +4,13 @@ import com.example.demo.dto.PlaylistRequestDto;
 import com.example.demo.dto.PlaylistResponseDto;
 import com.example.demo.dto.SongAddRequestDto;
 import com.example.demo.service.PlaylistService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -18,25 +23,31 @@ public class PlaylistController {
     }
 
     @PostMapping("/playlist")
-    public String createPlaylist(@RequestBody PlaylistRequestDto requestDto) {
+    public ResponseEntity<Object> createPlaylist(@RequestBody PlaylistRequestDto requestDto) throws URISyntaxException {
         Long userId = playlistService.createPlaylist(requestDto);
-        return "redirect:/playlist/" + userId;
+        URI redirectUrl = new URI("redirect:/playlist/" + userId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(redirectUrl);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
     }
 
     @GetMapping("/playlist/{userId}")
-    public List<PlaylistResponseDto> getPlaylist(@PathVariable("userId") Long userId) {
-        return playlistService.getPlaylist(userId);
+    public ResponseEntity<List<PlaylistResponseDto>> getPlaylist(@PathVariable("userId") Long userId) {
+        return new ResponseEntity<>(playlistService.getPlaylist(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("playlist/{userId}")
-    public String deletePlaylist(@PathVariable("userId") Long userId, @RequestParam("name") String name) {
+    public ResponseEntity<Object> deletePlaylist(@PathVariable("userId") Long userId, @RequestParam("name") String name) throws URISyntaxException {
         playlistService.deletePlaylist(userId, name);
-        return "redirect:/playlist" + userId;
+        URI redirectUrl = new URI("redirect:/playlist/" + userId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(redirectUrl);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
     }
 
     @PutMapping("/playlist/{userId}")
-    public PlaylistResponseDto addSongToPlaylist(@PathVariable("userId") Long userId, @RequestBody SongAddRequestDto requestDto) {
-        return playlistService.addSongToPlaylist(userId, requestDto);
+    public ResponseEntity<PlaylistResponseDto> addSongToPlaylist(@PathVariable("userId") Long userId, @RequestBody SongAddRequestDto requestDto) {
+        return new ResponseEntity<>(playlistService.addSongToPlaylist(userId, requestDto), HttpStatus.OK);
     }
 }
 
