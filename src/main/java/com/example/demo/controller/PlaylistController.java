@@ -28,12 +28,12 @@ public class PlaylistController {
         URI redirectUrl = new URI("redirect:/playlist/" + userId);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUrl);
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+        return new ResponseEntity<Object>(httpHeaders, HttpStatus.MOVED_PERMANENTLY);
     }
 
     @GetMapping("/playlist/{userId}")
     public ResponseEntity<List<PlaylistResponseDto>> getPlaylist(@PathVariable("userId") Long userId) {
-        return new ResponseEntity<>(playlistService.getPlaylist(userId), HttpStatus.OK);
+        return new ResponseEntity<List<PlaylistResponseDto>>(playlistService.getPlaylist(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("playlist/{userId}")
@@ -42,12 +42,12 @@ public class PlaylistController {
         URI redirectUrl = new URI("redirect:/playlist/" + userId);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUrl);
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+        return new ResponseEntity<Object>(httpHeaders, HttpStatus.MOVED_PERMANENTLY);
     }
 
     @PutMapping("/playlist/{userId}")
     public ResponseEntity<PlaylistResponseDto> addSongToPlaylist(@PathVariable("userId") Long userId, @RequestBody SongAddRequestDto requestDto) {
-        return new ResponseEntity<>(playlistService.addSongToPlaylist(userId, requestDto), HttpStatus.OK);
+        return new ResponseEntity<PlaylistResponseDto>(playlistService.addSongToPlaylist(userId, requestDto), HttpStatus.OK);
     }
 }
 

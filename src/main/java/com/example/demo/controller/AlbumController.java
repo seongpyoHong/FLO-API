@@ -20,13 +20,13 @@ public class AlbumController {
     public ResponseEntity<List<AlbumResponseDto>> search(@RequestParam(name = "title") String title,
                                                          @RequestParam(name = "locale") String locale) {
         System.out.println(albumService.searchByTitle(title, locale).size());
-        return new ResponseEntity<>(albumService.searchByTitle(title, locale), HttpStatus.OK);
+        return new ResponseEntity<List<AlbumResponseDto>>(albumService.searchByTitle(title, locale), HttpStatus.OK);
     }
 
     @GetMapping(value = "/albums")
     public ResponseEntity<PagedResponseDto> getAlbumList(@RequestParam(name = "locale") String locale,
                                                          @RequestParam(name = "page") int page) {
-        return new ResponseEntity<>(albumService.getAlbumList(locale, page), HttpStatus.OK);
+        return new ResponseEntity<PagedResponseDto>(albumService.getAlbumList(locale, page), HttpStatus.OK);
     }
 }
 
