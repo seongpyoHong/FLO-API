@@ -29,10 +29,9 @@ public class AlbumRepositoryImpl extends QuerydslRepositorySupport implements Al
     //Album in Valid Locale
     @Override
     public List<AlbumResponseDto> findByTitleInValidLocale(String title, String localeName) {
-        Long localeId = getLocaleId(localeName);
         List<Album> albums = queryFactory.selectFrom(album)
-                .leftJoin(album.songs,song).fetchJoin()
-                .where((containAlbumTitle(title).or(containSongName(title))).and(isServiceable(localeId)))
+                .leftJoin(album.songs,song)
+                .where((containAlbumTitle(title).or(containSongName(title))).and(isServiceable(getLocaleId(localeName))))
                 .distinct()
                 .fetch();
 
