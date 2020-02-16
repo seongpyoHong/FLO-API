@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.Location;
 import com.example.demo.domain.album.Album;
 import com.example.demo.domain.album.AlbumRepository;
 import com.example.demo.domain.locale.LocaleRepository;
@@ -23,6 +24,7 @@ public class AlbumService {
     private static String BASE_URL = "http://localhost:5000/";
     private static String PAGE_URL= BASE_URL+"albums/?page=";
     private static int DEFAULT_PAGE_SIZE = 10;
+
     private final AlbumRepository albumRepository;
     private final LocaleRepository localeRepository;
 
@@ -39,58 +41,46 @@ public class AlbumService {
         Long localeId = localeRepository.findByLocaleName(locale).orElseGet(() -> 0L);
         Pageable pageable = PageRequest.of(page - 1, DEFAULT_PAGE_SIZE);
         Page<Album> albums = albumRepository.findAllByValidLocale(localeId, pageable);
+
         if (page > albums.getTotalPages()) {
-            throw new IllegalArgumentException("Not Exist Page");
+            throw new IllegalArgumentException("Page doesn't exist!");
+        }
+        return getPageResponse(albums, page);
+    }
+
+    private PagedResponseDto getPageResponse(Page<Album> albums, int page) {
+        return new PagedResponseDto(getPages(albums, page), entityToDto(albums.getContent()));
+    }
+
+    private Map<String, String> getPages(Page<Album> albums, int page) {
+        Map<String, String> pageMap = getPageMap(getFirstLink(), getPrevLink(page), getNextLink(page), getLastLink(albums));
+        return getValidPageMap(albums,pageMap);
+    }
+
+    private Map<String, String> getValidPageMap(Page<Album> albums, Map<String, String> pageMap) {
+        Map<String, String> validPageMap = new HashMap<>(pageMap);
+
+        if (albums.isFirst()) {
+            validPageMap.replace("first", null);
+            validPageMap.replace("prev",null);
+        }
+        if (albums.isLast()) {
+            validPageMap.replace("next", null);
+            validPageMap.replace("last",null);
         }
 
-        PagedResponseDto responseDto;
-        if (albums.isFirst()) {
-            responseDto = getResponseForFirstPage(albums, page);
-        }
-        else if (albums.isLast()) {
-          responseDto = getResponseForLastPage(albums, page);
-        }
-        else {
-            responseDto = getResponseForCommonPage(albums,page);
-        }
-        return responseDto;
+        return validPageMap;
     }
-    private PagedResponseDto getResponseForFirstPage(Page<Album> albums, int page){
-        String first = null;
-        String prev = null;
-        String next = getNextLink(page);
-        String last = getLastLink(albums);
-        Map<String, String> pages = getPages(first, prev, next, last);
-        return new PagedResponseDto(pages,entityToDto(albums.getContent()));
-    }
-    private PagedResponseDto getResponseForLastPage(Page<Album> albums, int page){
-        String first = getFirstLink();
-        String prev = getPrevLink(page);
-        String next = null;
-        String last = null;
-        Map<String, String> pages = getPages(first, prev, next, last);
-        return new PagedResponseDto(pages,entityToDto(albums.getContent()));
-    }
-    private PagedResponseDto getResponseForCommonPage(Page<Album> albums, int page){
-        String first = getFirstLink();
-        String prev = getPrevLink(page);
-        String next = getNextLink(page);
-        String last = getLastLink(albums);
-        Map<String, String> pages = getPages(first, prev, next, last);
-        return new PagedResponseDto(pages,entityToDto(albums.getContent()));
-    }
-    private Map<String, String> getPages(String first, String prev, String next, String last) {
+
+    private Map<String, String> getPageMap(String first, String prev, String next, String last) {
         Map<String, String> pages = new HashMap<String,String>();
-        if (first != null)
-            pages.put("first", first);
-        if (prev != null)
-            pages.put("prev",prev);
-        if (next != null)
-            pages.put("next",next);
-        if (last != null)
-            pages.put("last",last);
+        pages.put("first", first);
+        pages.put("prev",prev);
+        pages.put("next",next);
+        pages.put("last",last);
         return pages;
     }
+
     private String getPrevLink(int page) {
        return PAGE_URL+ Integer.toString(page-1);
     }
